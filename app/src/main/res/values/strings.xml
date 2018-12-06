@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FinancialAppFinalProject</string>
+    <string name="title_activity_name__beginning__screen">Name_Beginning_Screen</string>
+    <string name="title_activity_name__initial__screen">Name_Initial_Screen</string>
+</resources>
