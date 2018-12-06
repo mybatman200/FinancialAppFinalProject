@@ -23,7 +23,9 @@
         <activity android:name=".activity_saving_goal_question" />
         <activity android:name=".activity_user_profile" />
         <activity android:name=".profile_user_edit" />
-        <activity android:name=".profile_user_summary"></activity>
+        <activity android:name=".profile_user_summary" />
+        <activity android:name=".saving_plan" />
+        <activity android:name=".saving_plan_2"></activity>
     </application>
 
 </manifest>

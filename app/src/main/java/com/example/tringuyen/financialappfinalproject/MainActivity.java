@@ -42,7 +42,14 @@ public class MainActivity extends AppCompatActivity {
     final static String USER_INCOME_TYPE = "user_income_type";
     final static String USER_DAILY_LIMIT = "user_daily_limit";
     final static String USER_SAVING_GOAL = "user_saving_goal";
+
+    final static String SAVING_NAME = "event_name";
+    final static String SAVING_AMOUNT = "saving_amount";
+    final static String SAVING_SO_FAR = "saving_so_far";
+    final static String SAVING_DATE = "saving_date";
+
     final static String[] all_columns = { _ID, USER_NAME, DATE, USER_TOTAL_INCOME, USER_TOTAL_SAVING, USER_INCOME_TYPE,USER_DAILY_LIMIT, USER_SAVING_GOAL};
+    final static String[] all_columns_saving = {_ID, SAVING_NAME, SAVING_AMOUNT,SAVING_SO_FAR, SAVING_DATE};
 
     TextView dailyLimit;
 
@@ -99,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void SavingPlanBtn(View v){
-        Intent intent = new Intent(this,activity_income_question.class);
-
+        Intent intent = new Intent(this,saving_plan.class);
+        startActivity(intent);
     }
 
     public void userrBtn(View v){
