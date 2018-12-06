@@ -18,8 +18,10 @@
         </activity>
         <activity
             android:name=".Name_Initial_Screen"
-            android:label="@string/title_activity_name__initial__screen"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/title_activity_name__initial__screen" />
+        <activity android:name=".activity_income_question" />
+        <activity android:name=".activity_saving_goal_question" />
+        <activity android:name=".activity_user_profile"></activity>
     </application>
 
 </manifest>
