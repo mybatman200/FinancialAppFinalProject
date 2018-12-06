@@ -64,7 +64,7 @@ public class activity_income_question extends AppCompatActivity {
         enterIncomeString.setVisibility(View.VISIBLE);
     }
 
-    public void dailyOnClick(View v){
+    public void biweeklyOnClick(View v){
         yearly=false;
         monthly=false;
         daily=true;
@@ -81,32 +81,23 @@ public class activity_income_question extends AppCompatActivity {
             frequency = "yearly";
         }
         if(daily==true){
-            frequency = "daily";
+            frequency = "bi-weekly";
         }
-
-        db = dbHelper.getWritableDatabase();
-        Cursor cursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
-        cursor.moveToFirst();
-        String name = cursor.getString(cursor.getColumnIndex(MainActivity.USER_NAME));
 
         String income = incomeQuest.getText().toString();
 
         db = dbHelper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MainActivity.USER_NAME, name);
-        contentValues.put(MainActivity.DATE, "");
-        contentValues.put(MainActivity.USER_DAILY_LIMIT, "");
-        contentValues.put(MainActivity.USER_SAVING_GOAL, "");
+
         contentValues.put(MainActivity.USER_INCOME_TYPE, frequency);
         contentValues.put(MainActivity.USER_TOTAL_INCOME, income);
-        contentValues.put(MainActivity.USER_TOTAL_SAVING, "");
-
 
         db.update(dbHelper.NAME, contentValues, "_id="+1,null);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////Test
         db = dbHelper.getWritableDatabase();
+        Cursor cursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         cursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         cursor.moveToFirst();
         String nameTest = cursor.getString(cursor.getColumnIndex(MainActivity.USER_NAME));
@@ -114,9 +105,11 @@ public class activity_income_question extends AppCompatActivity {
         String incomeTest = cursor.getString(cursor.getColumnIndex(MainActivity.USER_TOTAL_INCOME));
 
         Toast.makeText(this, nameTest+ " " + freqTest+ " " + incomeTest, Toast.LENGTH_LONG).show();
+        ////////////////////////////////////////////////////////////////////////////////////////////////Test
+
 
         Intent intent = new Intent(this,activity_saving_goal_question.class);
-        //startActivity(intent);
+        startActivity(intent);
 
 
     }

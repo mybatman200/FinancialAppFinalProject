@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.19" />
 
     <RadioGroup
-        android:layout_width="87dp"
+        android:layout_width="99dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -30,22 +30,22 @@
         app:layout_constraintVertical_bias="0.333">
 
         <RadioButton
-            android:onClick="yearlyOnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="yearlyOnClick"
             android:text="Yearly" />
 
         <RadioButton
-            android:onClick="monthlyOnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="monthlyOnClick"
             android:text="Monthly" />
 
         <RadioButton
-            android:onClick="dailyOnClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Daily" />
+            android:onClick="biweeklyOnClick"
+            android:text="Bi-Weekly" />
 
     </RadioGroup>
 

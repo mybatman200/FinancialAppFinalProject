@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     final static String USER_SAVING_GOAL = "user_saving_goal";
     final static String[] all_columns = { _ID, USER_NAME, DATE, USER_TOTAL_INCOME, USER_TOTAL_SAVING, USER_INCOME_TYPE,USER_DAILY_LIMIT, USER_SAVING_GOAL};
 
+    TextView dailyLimit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +67,25 @@ public class MainActivity extends AppCompatActivity {
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();
 
+        dailyLimit = findViewById(R.id.income_activity_main);
+
     }
-
-
 
     public void onResume(){
         super.onResume();
         db = dbHelper.getWritableDatabase();
+        mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
+        mCursor.moveToLast();
+        String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
+        Toast.makeText(this, dailyLimitString,Toast.LENGTH_LONG).show();
+        dailyLimit.setText(dailyLimitString);
 
     }
 
     public void onPause() {
         super.onPause();
-        //if (db != null) db.close();
-        //mCursor.close();
+        if (db != null) db.close();
+        mCursor.close();
     }
 
 
@@ -92,32 +98,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void SettingBtn(View v){
-//        String name = "Hello";
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(MainActivity.USER_NAME, name);
-//        contentValues.put(MainActivity.DATE, "");
-//        contentValues.put(MainActivity.USER_DAILY_LIMIT, "");
-//        contentValues.put(MainActivity.USER_SAVING_GOAL, "");
-//        contentValues.put(MainActivity.USER_INCOME_TYPE, "");
-//        contentValues.put(MainActivity.USER_TOTAL_INCOME, "");
-//        contentValues.put(MainActivity.USER_TOTAL_SAVING, "");
-
-
-//        db.insert(dbHelper.NAME,null, contentValues);
-
-        db = dbHelper.getWritableDatabase();
-        Cursor cursor =  db.query(dbHelper.NAME, all_columns, null, null, null, null, null);
-        cursor.moveToFirst();
-
-        String testing = cursor.getString( cursor.getColumnIndex(MainActivity.USER_NAME) );
-        Toast.makeText(this, testing, Toast.LENGTH_LONG).show();
-
+    public void SavingPlanBtn(View v){
         Intent intent = new Intent(this,activity_income_question.class);
+
     }
 
     public void userrBtn(View v){
-
+        Intent intent = new Intent(this, activity_user_profile.class);
+        startActivity(intent);
     }
 
 }

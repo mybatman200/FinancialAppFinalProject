@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.util.*;
 
 public class Name_Initial_Screen extends AppCompatActivity {
     EditText user_name;
@@ -31,18 +32,13 @@ public class Name_Initial_Screen extends AppCompatActivity {
     public void saveOnClickUser(View v){
         db = dbHelper.getWritableDatabase();
         String name = user_name.getText().toString();
+
+        Date currentTime = Calendar.getInstance().getTime();
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(MainActivity.USER_NAME, name);
-        contentValues.put(MainActivity.DATE, "");
-        contentValues.put(MainActivity.USER_DAILY_LIMIT, "");
-        contentValues.put(MainActivity.USER_SAVING_GOAL, "");
-        contentValues.put(MainActivity.USER_INCOME_TYPE, "");
-        contentValues.put(MainActivity.USER_TOTAL_INCOME, "");
-        contentValues.put(MainActivity.USER_TOTAL_SAVING, "");
-
-
+        contentValues.put(MainActivity.DATE, currentTime.toString());
         db.update(dbHelper.NAME, contentValues, "_id="+1,null);
-
 
         ////////////////////////////////////////////////////////////////////////////////////////////////Test
         db = dbHelper.getWritableDatabase();
@@ -50,7 +46,8 @@ public class Name_Initial_Screen extends AppCompatActivity {
         cursor.moveToFirst();
 
         String testing = cursor.getString( cursor.getColumnIndex(MainActivity.USER_NAME) );
-        Toast.makeText(this, testing, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,   name+ currentTime.toString(), Toast.LENGTH_LONG).show();
+        ////////////////////////////////////////////////////////////////////////////////////////////////Test
 
         Intent intent = new Intent(this,activity_income_question.class);
         startActivity(intent);
