@@ -48,6 +48,7 @@ public class dataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(MainActivity.USER_TOTAL_INCOME, "");
         contentValues.put(MainActivity.USER_TOTAL_SAVING, "");
         db.insert(NAME, null, contentValues);
+
     }
 
     @Override

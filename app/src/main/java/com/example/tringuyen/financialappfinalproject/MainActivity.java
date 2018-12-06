@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
         String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
-        Toast.makeText(this, dailyLimitString,Toast.LENGTH_LONG).show();
+
         dailyLimit.setText(dailyLimitString);
 
     }
