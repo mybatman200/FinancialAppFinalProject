@@ -25,7 +25,8 @@
         <activity android:name=".profile_user_edit" />
         <activity android:name=".profile_user_summary" />
         <activity android:name=".saving_plan" />
-        <activity android:name=".saving_plan_2"></activity>
+        <activity android:name=".saving_plan_2" />
+        <activity android:name=".saving_plan_3"></activity>
     </application>
 
 </manifest>

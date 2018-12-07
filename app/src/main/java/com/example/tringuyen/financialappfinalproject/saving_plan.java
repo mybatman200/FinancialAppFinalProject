@@ -17,6 +17,14 @@ import android.widget.Toast;
 
 public class saving_plan extends AppCompatActivity {
 
+
+    public final static String SAVING_ID_INTENT_1 = "SAVING_ID_INTENT_1";
+    public final static String SAVING_NAME_INTENT_1 = "SAVING_NAME_INTENT_1";
+
+    public final static String SAVING_AMOUNT_INTENT_1 = "SAVING_AMOUNT_INTENT_1";
+    public final static String SAVING_DATE_INTENT_1 = "SAVING_DATE_INTENT_1";
+
+
     private SQLiteDatabase db = null;
     private dataBaseHelper dbHelper = null;
     SimpleCursorAdapter myAdapter;
@@ -45,10 +53,18 @@ public class saving_plan extends AppCompatActivity {
                 String tempPos = Integer.toString(position);
                 //get values from database
                 String savingID = mCursor.getString(mCursor.getColumnIndex(MainActivity._ID));
-                String savingEventName = mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_NAME));
+                String savingName = mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_NAME));
                 String savingAmount =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_AMOUNT));
-                String savingSoFar =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_SO_FAR));
                 String savingDate =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_DATE));
+
+
+                Intent intent = new Intent(saving_plan.this, saving_plan_3.class);
+                intent.putExtra(SAVING_ID_INTENT_1,savingID );
+                intent.putExtra(SAVING_NAME_INTENT_1, savingName);
+                intent.putExtra(SAVING_AMOUNT_INTENT_1, savingAmount);
+                intent.putExtra(SAVING_DATE_INTENT_1, savingDate);
+
+                startActivity(intent);
 
             }
         });
@@ -123,16 +139,7 @@ public class saving_plan extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         new LoadNewLists().execute();
-        /*db = dbHelper.getWritableDatabase();
-        mCursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null,
-                null);
-        myAdapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_1,
-                mCursor,
-                new String[] {MainActivity.EVENT_NAME, MainActivity.SAVING_AMOUNT, MainActivity.SAVING_SO_FAR, MainActivity.SAVING_DATE },
-                new int[] { android.R.id.text1});
 
-        mlist.setAdapter(myAdapter);*/
 
     }
 
