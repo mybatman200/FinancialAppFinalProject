@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     final static String[] all_columns_saving = {_ID, SAVING_NAME, SAVING_AMOUNT,SAVING_SO_FAR, SAVING_DATE};
 
     TextView dailyLimit;
+    int daysOfMonth;
+    Boolean isFirstRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         dbHelper = new dataBaseHelper(this);
 
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+        isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                 .getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
@@ -76,28 +78,76 @@ public class MainActivity extends AppCompatActivity {
                 .putBoolean("isFirstRun", false).commit();
 
         dailyLimit = findViewById(R.id.income_activity_main);
+        Calendar calendar = Calendar.getInstance();
+        daysOfMonth= calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+
+
+
 
     }
     //String totalIncome, String savingPercentage, String totalPlannedSavingPerDay,  String totalRecurring, String frequency, String daysOfMonth
     public void onResume(){
         super.onResume();
+
         db = dbHelper.getWritableDatabase();
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
+        if(!isFirstRun) {
+            Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+            cursor.moveToLast();
 
-        Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-        cursor.moveToLast();
+            String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
+            String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
+            String totalPlannedSavingPerDay = "0";
+            String totalRecurring = "0";
+            String frequency = mCursor.getString(mCursor.getColumnIndex(USER_INCOME_TYPE));
+            DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
+            Toast.makeText(this, String.valueOf(dailyIncomeCalculator.dailyReturn()), Toast.LENGTH_LONG).show();
 
-        String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
-        String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
-        String totalPlannedSavingPerDay = cursor.getString(cursor.getColumnIndex(SAVING_AMOUNT));
-        String totalRecurring = "0";
-        Calendar calendar = Calendar.getInstance();
-        int daysOfMonth= calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            db = dbHelper.getWritableDatabase();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MainActivity.USER_DAILY_LIMIT, dailyIncomeCalculator.dailyReturn());
+
+            mCursor.moveToLast();
+
+            db.update(dbHelper.NAME, contentValues, "_id="+_ID, null);
+        }
 
         String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
         dailyLimit.setText(dailyLimitString);
 
+    }
+
+    public void onStart(){
+        super.onStart();
+        if(!isFirstRun) {
+            db = dbHelper.getWritableDatabase();
+            mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
+            mCursor.moveToLast();
+            Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+            cursor.moveToLast();
+
+            String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
+            String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
+            String totalPlannedSavingPerDay = "0";
+            String totalRecurring = "0";
+            String frequency = mCursor.getString(mCursor.getColumnIndex(USER_INCOME_TYPE));
+            DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
+            Toast.makeText(this, String.valueOf(dailyIncomeCalculator.dailyReturn()), Toast.LENGTH_LONG).show();
+
+            db = dbHelper.getWritableDatabase();
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MainActivity.USER_DAILY_LIMIT, dailyIncomeCalculator.dailyReturn());
+
+            mCursor.moveToLast();
+
+            db.update(dbHelper.NAME, contentValues, "_id="+_ID, null);
+            String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
+            dailyLimit.setText(dailyLimitString);
+        }
     }
 
     public void onPause() {
