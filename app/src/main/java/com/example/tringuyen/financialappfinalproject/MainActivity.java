@@ -81,12 +81,8 @@ public class MainActivity extends AppCompatActivity {
         dailyLimit = findViewById(R.id.income_activity_main);
         Calendar calendar = Calendar.getInstance();
         daysOfMonth= calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-
-
-
-
     }
+
     //String totalIncome, String savingPercentage, String totalPlannedSavingPerDay,  String totalRecurring, String frequency, String daysOfMonth
     public void onResume(){
         super.onResume();
@@ -94,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
+        Date today = new Date();
+        long getTimeToday = today.getTime();
         if(!isFirstRun) {
             double totalPlannedSavingPerDay=0;
             Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
@@ -115,10 +113,10 @@ public class MainActivity extends AppCompatActivity {
             mCursor.moveToLast();
 
             db.update(dbHelper.NAME, contentValues, "_id="+_ID, null);
+            String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
+            dailyLimit.setText(dailyLimitString);
         }
 
-        String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
-        dailyLimit.setText(dailyLimitString);
 
     }
 
@@ -128,11 +126,14 @@ public class MainActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
+        Date today = new Date();
+        long getTimeToday = today.getTime();
         if(!isFirstRun) {
             double totalPlannedSavingPerDay=0;
             Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
             while(cursor.moveToNext()==true){
                 totalPlannedSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.SAVING_PER_DATE)));
+
             }
 
             String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
