@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
     final static String SAVING_AMOUNT = "saving_amount";
     final static String SAVING_SO_FAR = "saving_so_far";
     final static String SAVING_DATE = "saving_date";
+    final static String SAVING_PER_DATE= "saving_per_date";
 
     final static String[] all_columns = { _ID, USER_NAME, DATE, USER_TOTAL_INCOME, USER_TOTAL_SAVING, USER_INCOME_TYPE,USER_DAILY_LIMIT, USER_SAVING_GOAL};
-    final static String[] all_columns_saving = {_ID, SAVING_NAME, SAVING_AMOUNT,SAVING_SO_FAR, SAVING_DATE};
+    final static String[] all_columns_saving = {_ID, SAVING_NAME, SAVING_AMOUNT,SAVING_SO_FAR,SAVING_PER_DATE, SAVING_DATE};
 
     TextView dailyLimit;
     int daysOfMonth;
@@ -94,16 +95,17 @@ public class MainActivity extends AppCompatActivity {
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
         if(!isFirstRun) {
+            double totalPlannedSavingPerDay=0;
             Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-            cursor.moveToLast();
+            while(cursor.moveToNext()==true){
+                totalPlannedSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.SAVING_PER_DATE)));
+            }
 
             String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
             String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
-            String totalPlannedSavingPerDay = "0";
             String totalRecurring = "0";
             String frequency = mCursor.getString(mCursor.getColumnIndex(USER_INCOME_TYPE));
             DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
-            Toast.makeText(this, String.valueOf(dailyIncomeCalculator.dailyReturn()), Toast.LENGTH_LONG).show();
 
             db = dbHelper.getWritableDatabase();
 
@@ -122,20 +124,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void onStart(){
         super.onStart();
+
+        db = dbHelper.getWritableDatabase();
+        mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
+        mCursor.moveToLast();
         if(!isFirstRun) {
-            db = dbHelper.getWritableDatabase();
-            mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
-            mCursor.moveToLast();
+            double totalPlannedSavingPerDay=0;
             Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-            cursor.moveToLast();
+            while(cursor.moveToNext()==true){
+                totalPlannedSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.SAVING_PER_DATE)));
+            }
 
             String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
             String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
-            String totalPlannedSavingPerDay = "0";
             String totalRecurring = "0";
             String frequency = mCursor.getString(mCursor.getColumnIndex(USER_INCOME_TYPE));
             DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
-            Toast.makeText(this, String.valueOf(dailyIncomeCalculator.dailyReturn()), Toast.LENGTH_LONG).show();
 
             db = dbHelper.getWritableDatabase();
 
@@ -148,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
             String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
             dailyLimit.setText(dailyLimitString);
         }
+
+
     }
 
     public void onPause() {

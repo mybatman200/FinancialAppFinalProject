@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.util.*;
 
 public class saving_plan_2 extends AppCompatActivity {
 
@@ -27,16 +28,22 @@ public class saving_plan_2 extends AppCompatActivity {
     }
 
     public void addMoreSaving(View v){
+
+        Date today = new Date();
+        long time =today.getTime();
+
         String name = nameEditText.getText().toString();
         String saving = savingEditText.getText().toString();
         String until = untilEditText.getText().toString();
-
+        double savingPerDateDouble = Double.parseDouble(saving)/Double.parseDouble(until);
+        String savingPerDateString = String.valueOf(savingPerDateDouble);
         db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(MainActivity.SAVING_NAME, name);
         values.put(MainActivity.SAVING_AMOUNT, saving);
         values.put(MainActivity.SAVING_DATE, until);
-        values.put(MainActivity.SAVING_SO_FAR,"");
+        values.put(MainActivity.SAVING_PER_DATE,savingPerDateString);
+        values.put(MainActivity.SAVING_SO_FAR, String.valueOf(time));
 
         db.insert(dbHelper.NAME_SAVING,null, values);
 

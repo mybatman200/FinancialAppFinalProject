@@ -23,7 +23,8 @@ public class saving_plan extends AppCompatActivity {
 
     public final static String SAVING_AMOUNT_INTENT_1 = "SAVING_AMOUNT_INTENT_1";
     public final static String SAVING_DATE_INTENT_1 = "SAVING_DATE_INTENT_1";
-
+    public final static String SAVING_PER_DATE_INTENT_1 = "SAVING_PER_DATE_INTENT_1";
+    public final static String SAVING_DATE_ADDED_INTENT_1 = "SAVING_DATE_ADDED_INTENT_1";
 
     private SQLiteDatabase db = null;
     private dataBaseHelper dbHelper = null;
@@ -56,13 +57,16 @@ public class saving_plan extends AppCompatActivity {
                 String savingName = mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_NAME));
                 String savingAmount =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_AMOUNT));
                 String savingDate =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_DATE));
-
+                String savingPerDate =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_PER_DATE));
+                String savingDateAdded = mCursor.getString(mCursor.getColumnIndex(MainActivity.SAVING_SO_FAR));
 
                 Intent intent = new Intent(saving_plan.this, saving_plan_3.class);
                 intent.putExtra(SAVING_ID_INTENT_1,savingID );
                 intent.putExtra(SAVING_NAME_INTENT_1, savingName);
                 intent.putExtra(SAVING_AMOUNT_INTENT_1, savingAmount);
                 intent.putExtra(SAVING_DATE_INTENT_1, savingDate);
+                intent.putExtra(SAVING_PER_DATE_INTENT_1,savingPerDate);
+                intent.putExtra(SAVING_DATE_ADDED_INTENT_1, savingDateAdded);
 
                 startActivity(intent);
 
@@ -128,7 +132,7 @@ public class saving_plan extends AppCompatActivity {
             myAdapter = new SimpleCursorAdapter(saving_plan.this,
                     android.R.layout.simple_list_item_1,
                     mCursor,
-                    new String[] {MainActivity.SAVING_NAME, MainActivity.SAVING_AMOUNT, MainActivity.SAVING_SO_FAR, MainActivity.SAVING_DATE },
+                    new String[] {MainActivity.SAVING_NAME, MainActivity.SAVING_AMOUNT, MainActivity.SAVING_SO_FAR, MainActivity.SAVING_PER_DATE, MainActivity.SAVING_DATE },
                     new int[] { android.R.id.text1});
 
             mlist.setAdapter(myAdapter);

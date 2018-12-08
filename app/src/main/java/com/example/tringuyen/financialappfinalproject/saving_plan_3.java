@@ -16,7 +16,7 @@ public class saving_plan_3 extends AppCompatActivity {
     private dataBaseHelper dbHelper = null;
     private SQLiteDatabase db = null;
     EditText savingGoal, untilDate;
-    TextView currentGoal, currentDate, savingNameUpdate;
+    TextView currentGoal, currentDate, savingNameUpdate,savingPerDateText, savingGoalText;
 
     String id;
     @Override
@@ -29,16 +29,22 @@ public class saving_plan_3 extends AppCompatActivity {
         final String name = intent.getStringExtra(saving_plan.SAVING_NAME_INTENT_1);
         final String amount = intent.getStringExtra(saving_plan.SAVING_AMOUNT_INTENT_1);
         final String date = intent.getStringExtra(saving_plan.SAVING_DATE_INTENT_1);
+        final String savingPerDayString = intent.getStringExtra(saving_plan.SAVING_PER_DATE_INTENT_1);
+        final String savingDayAdded = intent.getStringExtra(saving_plan.SAVING_DATE_ADDED_INTENT_1);
 
         savingNameUpdate = findViewById(R.id.savingNameUpdate);
         currentDate = findViewById(R.id.CurrentSavingDate);
         currentGoal = findViewById(R.id.CurrentSavingRate);
+        savingPerDateText = findViewById(R.id.SavingPerDateText);
+        savingGoalText = findViewById(R.id.SavingGoalText);
 
         dbHelper = new dataBaseHelper(this);
 
         savingNameUpdate.setText(name);
         currentGoal.setText("Current Saving Goal: "+ amount);
         currentDate.setText("Current Saving Date: "+ date);
+        savingPerDateText.setText("Saving per day: "+savingPerDayString);
+        savingGoalText.setText("Time added: "+ savingDayAdded);
 
 
     }
@@ -48,30 +54,30 @@ public class saving_plan_3 extends AppCompatActivity {
         Intent intent = getIntent();
         //int id = intent.getIntExtra("idNumber", 0);
 
-        savingGoal = findViewById(R.id.weightUpdate);
-        untilDate = findViewById(R.id.repsUpdate);
-
-        String savingGoalString = savingGoal.getText().toString();
-        String untilDateString = untilDate.getText().toString();
-
-        db = dbHelper.getWritableDatabase();
-
-
-        ContentValues contentValues = new ContentValues();
-        if(!savingGoalString.equals("")){
-            contentValues.put(MainActivity.SAVING_AMOUNT,savingGoalString);
-            db.update(dbHelper.NAME_SAVING,contentValues,"_id="+id,null);
-
-        }
-        if(!untilDateString.equals("")){
-            contentValues.put(MainActivity.SAVING_DATE,untilDateString);
-            db.update(dbHelper.NAME_SAVING,contentValues,"_id="+id,null);
-
-        }
-
-
-        Cursor cursor =  db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-        cursor.moveToPosition(Integer.parseInt(id));
+//        savingGoal = findViewById(R.id.weightUpdate);
+//        untilDate = findViewById(R.id.repsUpdate);
+//
+//        String savingGoalString = savingGoal.getText().toString();
+//        String untilDateString = untilDate.getText().toString();
+//
+//        db = dbHelper.getWritableDatabase();
+//
+//
+//        ContentValues contentValues = new ContentValues();
+//        if(!savingGoalString.equals("")){
+//            contentValues.put(MainActivity.SAVING_AMOUNT,savingGoalString);
+//            db.update(dbHelper.NAME_SAVING,contentValues,"_id="+id,null);
+//
+//        }
+//        if(!untilDateString.equals("")){
+//            contentValues.put(MainActivity.SAVING_DATE,untilDateString);
+//            db.update(dbHelper.NAME_SAVING,contentValues,"_id="+id,null);
+//
+//        }
+//
+//
+//        Cursor cursor =  db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+//        cursor.moveToPosition(Integer.parseInt(id));
 
         Intent intent1 = new Intent(this, saving_plan.class);
         startActivity(intent1);

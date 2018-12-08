@@ -5,10 +5,10 @@ public class DailyIncomeCalculator {
     double totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring;
     int daysOfMonth;
     String frequency;
-    public DailyIncomeCalculator(String totalIncome, String savingPercentage, String totalPlannedSavingPerDay,  String totalRecurring, String frequency, int daysOfMonth){
+    public DailyIncomeCalculator(String totalIncome, String savingPercentage, double totalPlannedSavingPerDay,  String totalRecurring, String frequency, int daysOfMonth){
         this.totalIncome = Double.parseDouble(totalIncome);
         this.savingPercentage = Double.parseDouble(savingPercentage);
-        this.totalPlannedSavingPerDay = Double.parseDouble(totalPlannedSavingPerDay);
+        this.totalPlannedSavingPerDay = totalPlannedSavingPerDay;
         this.totalRecurring = Double.parseDouble(totalRecurring);
         this.frequency = frequency;
         this.daysOfMonth = daysOfMonth;

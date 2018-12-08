@@ -37,7 +37,7 @@ public class dataBaseHelper extends SQLiteOpenHelper {
 
     final private static String CREATE_SAVING = "CREATE TABLE "+NAME_SAVING+" (" + MainActivity._ID +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + MainActivity.SAVING_NAME + " TEXT NOT NULL," +
-            MainActivity.SAVING_AMOUNT + " TEXT NOT NULL," + MainActivity.SAVING_SO_FAR + " TEXT NOT NULL," + MainActivity.SAVING_DATE + " TEXT NOT NULL)";
+            MainActivity.SAVING_AMOUNT + " TEXT NOT NULL," + MainActivity.SAVING_SO_FAR + " TEXT NOT NULL,"+ MainActivity.SAVING_PER_DATE + " TEXT NOT NULL," + MainActivity.SAVING_DATE + " TEXT NOT NULL)";
 
 
 
@@ -53,13 +53,13 @@ public class dataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_SAVING);
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MainActivity.USER_NAME, "");
-        contentValues.put(MainActivity.DATE, "");
-        contentValues.put(MainActivity.USER_DAILY_LIMIT, "");
-        contentValues.put(MainActivity.USER_SAVING_GOAL, "");
-        contentValues.put(MainActivity.USER_INCOME_TYPE, "");
-        contentValues.put(MainActivity.USER_TOTAL_INCOME, "");
-        contentValues.put(MainActivity.USER_TOTAL_SAVING, "");
+        contentValues.put(MainActivity.USER_NAME, "a");
+        contentValues.put(MainActivity.DATE, "1");
+        contentValues.put(MainActivity.USER_DAILY_LIMIT, "1");
+        contentValues.put(MainActivity.USER_SAVING_GOAL, "1");
+        contentValues.put(MainActivity.USER_INCOME_TYPE, "1");
+        contentValues.put(MainActivity.USER_TOTAL_INCOME, "1");
+        contentValues.put(MainActivity.USER_TOTAL_SAVING, "1");
         db.insert(NAME, null, contentValues);
 
 
@@ -67,6 +67,7 @@ public class dataBaseHelper extends SQLiteOpenHelper {
         content.put(MainActivity.SAVING_NAME, "Hello");
         content.put(MainActivity.SAVING_AMOUNT, "500");
         content.put(MainActivity.SAVING_SO_FAR,"100");
+        content.put(MainActivity.SAVING_PER_DATE,"100");
         content.put(MainActivity.SAVING_DATE,"123123");
         db.insert(NAME_SAVING,null, content);
     }
