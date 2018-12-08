@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.*;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -77,14 +78,24 @@ public class MainActivity extends AppCompatActivity {
         dailyLimit = findViewById(R.id.income_activity_main);
 
     }
-
+    //String totalIncome, String savingPercentage, String totalPlannedSavingPerDay,  String totalRecurring, String frequency, String daysOfMonth
     public void onResume(){
         super.onResume();
         db = dbHelper.getWritableDatabase();
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
-        String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
 
+        Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+        cursor.moveToLast();
+
+        String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
+        String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
+        String totalPlannedSavingPerDay = cursor.getString(cursor.getColumnIndex(SAVING_AMOUNT));
+        String totalRecurring = "0";
+        Calendar calendar = Calendar.getInstance();
+        int daysOfMonth= calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
         dailyLimit.setText(dailyLimitString);
 
     }
