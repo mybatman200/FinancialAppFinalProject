@@ -47,13 +47,8 @@ public class saving_plan_2 extends AppCompatActivity {
 
         db.insert(dbHelper.NAME_SAVING,null, values);
 
-        db = dbHelper.getWritableDatabase();
-        Cursor mCursor =  db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-        mCursor.moveToFirst();
-
-        String s = mCursor.getString(mCursor.getColumnIndex(MainActivity.SAVING_NAME));
-        Toast.makeText(this, s,Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, saving_plan.class);
+        intent.putExtra("BOOLEAN_RETURN", true);
         startActivity(intent);
     }
 }

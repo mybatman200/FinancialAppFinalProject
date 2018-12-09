@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase db = null;
     private dataBaseHelper dbHelper = null;
     SimpleCursorAdapter myAdapter;
-
+    boolean deductBoolean = false;
     Cursor mCursor;
     android.app.AlertDialog actions;
     final static String _ID = "_id";
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         daysOfMonth= calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
+
     //String totalIncome, String savingPercentage, String totalPlannedSavingPerDay,  String totalRecurring, String frequency, String daysOfMonth
     public void onResume(){
         super.onResume();
@@ -90,33 +91,9 @@ public class MainActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
-        Date today = new Date();
-        long getTimeToday = today.getTime();
-        if(!isFirstRun) {
-            double totalPlannedSavingPerDay=0;
-            Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-            while(cursor.moveToNext()==true){
-                totalPlannedSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.SAVING_PER_DATE)));
-            }
 
-            String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
-            String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
-            String totalRecurring = "0";
-            String frequency = mCursor.getString(mCursor.getColumnIndex(USER_INCOME_TYPE));
-            DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
-
-            db = dbHelper.getWritableDatabase();
-
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MainActivity.USER_DAILY_LIMIT, dailyIncomeCalculator.dailyReturn());
-
-            mCursor.moveToLast();
-
-            db.update(dbHelper.NAME, contentValues, "_id="+_ID, null);
-            String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
-            dailyLimit.setText(dailyLimitString);
-        }
-
+        double dailyLimitString = Math.round(Double.parseDouble(mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT)))*100.00)/100.00;
+        dailyLimit.setText(String.valueOf(dailyLimitString));
 
     }
 
@@ -126,33 +103,9 @@ public class MainActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         mCursor =  db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
         mCursor.moveToLast();
-        Date today = new Date();
-        long getTimeToday = today.getTime();
-        if(!isFirstRun) {
-            double totalPlannedSavingPerDay=0;
-            Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-            while(cursor.moveToNext()==true){
-                totalPlannedSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.SAVING_PER_DATE)));
 
-            }
-
-            String totalIncome = mCursor.getString(mCursor.getColumnIndex(USER_TOTAL_INCOME));
-            String savingPercentage = mCursor.getString(mCursor.getColumnIndex(USER_SAVING_GOAL));
-            String totalRecurring = "0";
-            String frequency = mCursor.getString(mCursor.getColumnIndex(USER_INCOME_TYPE));
-            DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
-
-            db = dbHelper.getWritableDatabase();
-
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MainActivity.USER_DAILY_LIMIT, dailyIncomeCalculator.dailyReturn());
-
-            mCursor.moveToLast();
-
-            db.update(dbHelper.NAME, contentValues, "_id="+_ID, null);
-            String dailyLimitString = mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT));
-            dailyLimit.setText(dailyLimitString);
-        }
+        double dailyLimitString = Math.round(Double.parseDouble(mCursor.getString(mCursor.getColumnIndex(USER_DAILY_LIMIT)))*100.00)/100.00;
+        dailyLimit.setText(String.valueOf(dailyLimitString));
 
 
     }
@@ -166,11 +119,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void addButtonActivityMain(View v){
-
+//        Intent intent = new Intent(this, activity_add_daily.class);
+//        startActivity(intent);
+        db = dbHelper.getWritableDatabase();
+        Cursor cursor1 = db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
+        cursor1.moveToLast();
+        String dailyLimitString = cursor1.getString(cursor1.getColumnIndex(USER_DAILY_LIMIT));
+        dailyLimit.setText(dailyLimitString);
+        Toast.makeText(this, dailyLimitString, Toast.LENGTH_LONG).show();
     }
 
     public void minusButtonActivityMain(View v){
-
+        deductBoolean = true;
+        Intent intent = new Intent(this, activity_deduct_daily.class);
+        startActivity(intent);
     }
 
     public void SavingPlanBtn(View v){

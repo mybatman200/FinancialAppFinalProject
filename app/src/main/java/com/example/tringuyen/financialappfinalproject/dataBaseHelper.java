@@ -65,10 +65,10 @@ public class dataBaseHelper extends SQLiteOpenHelper {
 
         ContentValues content = new ContentValues();
         content.put(MainActivity.SAVING_NAME, "Hello");
-        content.put(MainActivity.SAVING_AMOUNT, "500");
-        content.put(MainActivity.SAVING_SO_FAR,"100");
-        content.put(MainActivity.SAVING_PER_DATE,"100");
-        content.put(MainActivity.SAVING_DATE,"123123");
+        content.put(MainActivity.SAVING_AMOUNT, "0");
+        content.put(MainActivity.SAVING_SO_FAR,"0");
+        content.put(MainActivity.SAVING_PER_DATE,"0");
+        content.put(MainActivity.SAVING_DATE,"0");
         db.insert(NAME_SAVING,null, content);
     }
 

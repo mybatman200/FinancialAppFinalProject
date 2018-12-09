@@ -14,6 +14,17 @@ public class DailyIncomeCalculator {
         this.daysOfMonth = daysOfMonth;
     }
 
+    public DailyIncomeCalculator(String totalIncome, double savingPercentage, double totalPlannedSavingPerDay,  String totalRecurring, String frequency, int daysOfMonth){
+        this.totalIncome = Double.parseDouble(totalIncome);
+        this.savingPercentage = savingPercentage;
+        this.totalPlannedSavingPerDay = totalPlannedSavingPerDay;
+        this.totalRecurring = Double.parseDouble(totalRecurring);
+        this.frequency = frequency;
+        this.daysOfMonth = daysOfMonth;
+    }
+
+
+
     public double dailyReturn(){
         double totalPerDaysBeforeDeduct =0;
         double totalPerDayAfterDeductPlannedSavingAndRecurring=0;

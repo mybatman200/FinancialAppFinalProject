@@ -1,5 +1,6 @@
 package com.example.tringuyen.financialappfinalproject;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class saving_plan extends AppCompatActivity {
 
@@ -34,7 +37,8 @@ public class saving_plan extends AppCompatActivity {
     Cursor mCursor;
     String longClickString;
     android.app.AlertDialog actions;
-
+    long idListener = 0;
+    boolean bool = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +83,8 @@ public class saving_plan extends AppCompatActivity {
 
                 String tempString = ((TextView) view).getText().toString();
                 longClickString = Long.toString(id);
-
+                setPosition(position);
+                setID(id);
                 actions.show();
 
                 return true;
@@ -91,6 +96,19 @@ public class saving_plan extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
+                        Cursor cursor = db.query(dbHelper.NAME, MainActivity.all_columns, null,null, null, null,null);
+                        cursor.moveToLast();
+                        Cursor cursorSaving = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null,null, null, null,null);
+                        cursorSaving.moveToPosition(positionListener);
+
+                        double savingPerDay = Double.parseDouble(cursorSaving.getString(cursorSaving.getColumnIndex(MainActivity.SAVING_PER_DATE)));
+                        double dailyLimit = Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.USER_DAILY_LIMIT)));
+                        dailyLimit = dailyLimit+savingPerDay;
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(MainActivity.USER_DAILY_LIMIT, dailyLimit);
+                        db.update(dbHelper.NAME, contentValues, "_id="+MainActivity._ID, null);
+
                         db.delete(dbHelper.NAME_SAVING, "_id=?", new String[]{longClickString});
                         Toast.makeText(getApplicationContext(), "Delete" + longClickString, Toast.LENGTH_LONG).show();
 
@@ -98,6 +116,8 @@ public class saving_plan extends AppCompatActivity {
                         mCursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
                         myAdapter.swapCursor(mCursor);
                         mlist.setAdapter(myAdapter);
+
+
                         break;
 
                     default:
@@ -114,8 +134,22 @@ public class saving_plan extends AppCompatActivity {
         builder.setNegativeButton("Cancel", null);
         actions = builder.create();
 
+        Intent intent = getIntent();
+        bool = intent.getBooleanExtra("BOOLEAN_RETURN", false);
     }
-
+    int positionListener;
+    public void setPosition(int position){
+        positionListener = position;
+    }
+    public int getPosition(){
+        return positionListener;
+    }
+    public void setID(long id){
+        idListener = id;
+    }
+    public long getID(){
+        return idListener;
+    }
 
     private class LoadNewLists extends AsyncTask<Void, Void, Cursor> {
         @Override
@@ -143,9 +177,44 @@ public class saving_plan extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         new LoadNewLists().execute();
-
-
     }
+
+    @Override
+    public void onBackPressed(){
+        if(bool == true) {
+            int daysOfMonth;
+            Calendar calendar = Calendar.getInstance();
+            daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+            db = dbHelper.getWritableDatabase();
+
+            Cursor cursorName = db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
+            cursorName.moveToLast();
+            Toast.makeText(this, cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_LONG).show();
+            double totalPlannedSavingPerDay = 0;
+            Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+            while (cursor.moveToNext() == true) {
+                totalPlannedSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.SAVING_PER_DATE)));
+            }
+//
+            String totalIncome = cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_TOTAL_INCOME));
+            String savingPercentage = cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_SAVING_GOAL));
+            String totalRecurring = "0";
+            String frequency = cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_INCOME_TYPE));
+            double userDailyUpdated = Double.parseDouble(cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT))) - totalPlannedSavingPerDay;
+
+
+            //DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
+
+            db = dbHelper.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MainActivity.USER_DAILY_LIMIT, String.valueOf(userDailyUpdated));
+            db.update(dbHelper.NAME, contentValues, "_id=" + MainActivity._ID, null);
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 
     public void onPause() {
         super.onPause();

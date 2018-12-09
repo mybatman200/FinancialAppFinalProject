@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_saving_goal_question">
+    tools:context=".activity_deduct_daily">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SAVING GOAL"
-        android:textSize="30dp"
+        android:text="Amount"
         android:textColor="@color/colorPrimaryDark"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,36 +19,35 @@
         app:layout_constraintVertical_bias="0.333"
         />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.356"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
-        android:id="@+id/savingQuestion"
+        android:id="@+id/deductIncomeDaily"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="%"
-        android:maxLength="2"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.668"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
-        android:id="@+id/nextBtnActivitySavingQuestion"
-        android:onClick="nextBtnActivitySavingQuestionOnClick"
+        android:id="@+id/submitDeductBtn"
+        android:onClick="submitDeductActivityDeductDaily"
         android:layout_width="wrap_content"
         android:layout_height="39dp"
-        android:text="Next"
+        android:text="Submit"
         android:background="@color/colorPrimary"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"

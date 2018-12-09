@@ -47,6 +47,8 @@
         android:id="@+id/newSavingQuestion"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:maxLength="2"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -56,7 +58,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:text="%"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
