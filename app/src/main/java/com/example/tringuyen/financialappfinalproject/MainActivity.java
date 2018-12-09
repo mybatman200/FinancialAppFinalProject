@@ -119,14 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void addButtonActivityMain(View v){
-//        Intent intent = new Intent(this, activity_add_daily.class);
-//        startActivity(intent);
-        db = dbHelper.getWritableDatabase();
-        Cursor cursor1 = db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
-        cursor1.moveToLast();
-        String dailyLimitString = cursor1.getString(cursor1.getColumnIndex(USER_DAILY_LIMIT));
-        dailyLimit.setText(dailyLimitString);
-        Toast.makeText(this, dailyLimitString, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, activity_add_daily.class);
+        startActivity(intent);
+        
     }
 
     public void minusButtonActivityMain(View v){

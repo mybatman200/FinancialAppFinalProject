@@ -38,7 +38,7 @@ public class activity_deduct_daily extends AppCompatActivity {
         mCursor.moveToLast();
         String dailyExpenseBefore = mCursor.getString(mCursor.getColumnIndex(MainActivity.USER_DAILY_LIMIT));
         double dailyExpenseBeforeDouble = Double.parseDouble(dailyExpenseBefore);
-        double dailyExpenseAfterDouble = dailyExpenseBeforeDouble-Double.parseDouble(deductAmount);
+        double dailyExpenseAfterDouble = dailyExpenseBeforeDouble + Double.parseDouble(deductAmount);
         String dailyExpenseAfter = String.valueOf(dailyExpenseAfterDouble);
 
 
@@ -46,7 +46,6 @@ public class activity_deduct_daily extends AppCompatActivity {
         String userName = mCursor.getString(mCursor.getColumnIndex(MainActivity.USER_NAME));
         String date = String.valueOf(time);
         String userTotalSaving = mCursor.getString(mCursor.getColumnIndex(MainActivity.USER_TOTAL_SAVING));
-        double totalSaving = Double.parseDouble(userTotalSaving)*1000;
         String userTotalIncome = mCursor.getString(mCursor.getColumnIndex(MainActivity.USER_TOTAL_INCOME));
         String userIncomeType = mCursor.getString(mCursor.getColumnIndex(MainActivity.USER_INCOME_TYPE));
         String userSavingGoal = mCursor.getString(mCursor.getColumnIndex(MainActivity.USER_SAVING_GOAL));
