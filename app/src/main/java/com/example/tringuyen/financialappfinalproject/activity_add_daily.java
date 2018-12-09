@@ -36,7 +36,7 @@ public class activity_add_daily extends AppCompatActivity {
         mCursor.moveToLast();
         String dailyExpenseBefore = mCursor.getString(mCursor.getColumnIndex(MainActivity.USER_DAILY_LIMIT));
         double dailyExpenseBeforeDouble = Double.parseDouble(dailyExpenseBefore);
-        double dailyExpenseAfterDouble = dailyExpenseBeforeDouble-Double.parseDouble(deductAmount);
+        double dailyExpenseAfterDouble = dailyExpenseBeforeDouble + Double.parseDouble(deductAmount);
         String dailyExpenseAfter = String.valueOf(dailyExpenseAfterDouble);
 
 

@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     public void addButtonActivityMain(View v){
         Intent intent = new Intent(this, activity_add_daily.class);
         startActivity(intent);
-        
+
     }
 
     public void minusButtonActivityMain(View v){
