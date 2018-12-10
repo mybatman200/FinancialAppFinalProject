@@ -15,7 +15,6 @@ import android.widget.Toast;
 public class saving_plan_3 extends AppCompatActivity {
     private dataBaseHelper dbHelper = null;
     private SQLiteDatabase db = null;
-    EditText savingGoal, untilDate;
     TextView currentGoal, currentDate, savingNameUpdate,savingPerDateText, savingGoalText;
 
     String id;

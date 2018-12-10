@@ -9,25 +9,23 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.util.*;
+import java.util.*;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
+public class Recuring extends AppCompatActivity {
 
-public class saving_plan extends AppCompatActivity {
+    public final static String RECURRING_ID_INTENT_1 = "RECURRING_ID_INTENT_1";
+    public final static String RECURRING_NAME_INTENT_1 = "RECURRING_NAME_INTENT_1";
 
+    public final static String RECURRING_AMOUNT_INTENT_1 = "RECURRING_AMOUNT_INTENT_1";
+    public final static String RECURRING_PER_DATE_INTENT_1 = "RECURRING_PER_DATE_INTENT_1";
 
-    public final static String SAVING_ID_INTENT_1 = "SAVING_ID_INTENT_1";
-    public final static String SAVING_NAME_INTENT_1 = "SAVING_NAME_INTENT_1";
-
-    public final static String SAVING_AMOUNT_INTENT_1 = "SAVING_AMOUNT_INTENT_1";
-    public final static String SAVING_DATE_INTENT_1 = "SAVING_DATE_INTENT_1";
-    public final static String SAVING_PER_DATE_INTENT_1 = "SAVING_PER_DATE_INTENT_1";
-    public final static String SAVING_DATE_ADDED_INTENT_1 = "SAVING_DATE_ADDED_INTENT_1";
 
     private SQLiteDatabase db = null;
     private dataBaseHelper dbHelper = null;
@@ -40,13 +38,12 @@ public class saving_plan extends AppCompatActivity {
     long idListener = 0;
     boolean bool = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saving_plan);
+        setContentView(R.layout.activity_recuring);
 
-        mlist = findViewById(R.id.listView);
+        mlist = findViewById(R.id.listViewRecurring);
         dbHelper = new dataBaseHelper(this);
 
         mlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -59,20 +56,17 @@ public class saving_plan extends AppCompatActivity {
 
                 String tempPos = Integer.toString(position);
                 //get values from database
-                String savingID = mCursor.getString(mCursor.getColumnIndex(MainActivity._ID));
-                String savingName = mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_NAME));
-                String savingAmount =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_AMOUNT));
-                String savingDate =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_DATE));
-                String savingPerDate =  mCursor.getString( mCursor.getColumnIndex(MainActivity.SAVING_PER_DATE));
-                String savingDateAdded = mCursor.getString(mCursor.getColumnIndex(MainActivity.SAVING_SO_FAR));
+                String recurringID = mCursor.getString(mCursor.getColumnIndex(MainActivity._ID));
+                String recurringName = mCursor.getString( mCursor.getColumnIndex(MainActivity.RECURRING_NAME));
+                String recurringAmount =  mCursor.getString( mCursor.getColumnIndex(MainActivity.RECURRING_AMOUNT));
+                String recurringPerDate =  mCursor.getString( mCursor.getColumnIndex(MainActivity.RECURRING_PER_DATE));
 
-                Intent intent = new Intent(saving_plan.this, saving_plan_3.class);
-                intent.putExtra(SAVING_ID_INTENT_1,savingID );
-                intent.putExtra(SAVING_NAME_INTENT_1, savingName);
-                intent.putExtra(SAVING_AMOUNT_INTENT_1, savingAmount);
-                intent.putExtra(SAVING_DATE_INTENT_1, savingDate);
-                intent.putExtra(SAVING_PER_DATE_INTENT_1,savingPerDate);
-                intent.putExtra(SAVING_DATE_ADDED_INTENT_1, savingDateAdded);
+                Intent intent = new Intent(Recuring.this, Recurring_3.class);
+                intent.putExtra(RECURRING_ID_INTENT_1,recurringID );
+                intent.putExtra(RECURRING_NAME_INTENT_1, recurringName);
+                intent.putExtra(RECURRING_AMOUNT_INTENT_1, recurringAmount);
+                intent.putExtra(RECURRING_PER_DATE_INTENT_1, recurringPerDate);
+
 
                 startActivity(intent);
 
@@ -100,22 +94,22 @@ public class saving_plan extends AppCompatActivity {
                     case 0:
                         Cursor cursor = db.query(dbHelper.NAME, MainActivity.all_columns, null,null, null, null,null);
                         cursor.moveToLast();
-                        Cursor cursorSaving = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null,null, null, null,null);
+                        Cursor cursorSaving = db.query(dbHelper.NAME_RECURRING, MainActivity.all_columns_recurring, null,null, null, null,null);
                         cursorSaving.moveToPosition(positionListener);
 
-                        double savingPerDay = Double.parseDouble(cursorSaving.getString(cursorSaving.getColumnIndex(MainActivity.SAVING_PER_DATE)));
+                        double recurringPerDay = Double.parseDouble(cursorSaving.getString(cursorSaving.getColumnIndex(MainActivity.RECURRING_PER_DATE)));
                         double dailyLimit = Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.USER_DAILY_LIMIT)));
-                        dailyLimit = dailyLimit+savingPerDay;
+                        dailyLimit = dailyLimit+recurringPerDay;
 
                         ContentValues contentValues = new ContentValues();
                         contentValues.put(MainActivity.USER_DAILY_LIMIT, dailyLimit);
                         db.update(dbHelper.NAME, contentValues, "_id="+MainActivity._ID, null);
 
-                        db.delete(dbHelper.NAME_SAVING, "_id=?", new String[]{longClickString});
+                        db.delete(dbHelper.NAME_RECURRING, "_id=?", new String[]{longClickString});
                         Toast.makeText(getApplicationContext(), "Delete" + longClickString, Toast.LENGTH_LONG).show();
 
                         db = dbHelper.getWritableDatabase();
-                        mCursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+                        mCursor = db.query(dbHelper.NAME_RECURRING, MainActivity.all_columns_recurring, null, null, null, null, null);
                         myAdapter.swapCursor(mCursor);
                         mlist.setAdapter(myAdapter);
 
@@ -127,7 +121,6 @@ public class saving_plan extends AppCompatActivity {
                 }
             }
         };
-
         android.app.AlertDialog.Builder builder = new
                 android.app.AlertDialog.Builder(this);
         builder.setTitle("Are you sure you want to delete this item?");
@@ -137,7 +130,7 @@ public class saving_plan extends AppCompatActivity {
         actions = builder.create();
 
         Intent intent = getIntent();
-        bool = intent.getBooleanExtra("BOOLEAN_RETURN", false);
+        bool = intent.getBooleanExtra("BOOLEAN_RETURN_RECURRING", false);
     }
 
     int positionListener;
@@ -154,11 +147,12 @@ public class saving_plan extends AppCompatActivity {
         return idListener;
     }
 
+
     private class LoadNewLists extends AsyncTask<Void, Void, Cursor> {
         @Override
         protected Cursor doInBackground(Void... params){
             db = dbHelper.getWritableDatabase();
-            mCursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null,
+            mCursor = db.query(dbHelper.NAME_RECURRING, MainActivity.all_columns_recurring, null, null, null, null,
                     null);
             return mCursor;
         }
@@ -166,10 +160,10 @@ public class saving_plan extends AppCompatActivity {
         @Override
         protected void onPostExecute(Cursor result){
             super.onPostExecute(result);
-            myAdapter = new SimpleCursorAdapter(saving_plan.this,
+            myAdapter = new SimpleCursorAdapter(Recuring.this,
                     android.R.layout.simple_list_item_1,
                     mCursor,
-                    new String[] {MainActivity.SAVING_NAME, MainActivity.SAVING_AMOUNT, MainActivity.SAVING_SO_FAR, MainActivity.SAVING_PER_DATE, MainActivity.SAVING_DATE },
+                    new String[] {MainActivity.RECURRING_NAME, MainActivity.RECURRING_AMOUNT, MainActivity.RECURRING_PER_DATE},
                     new int[] { android.R.id.text1});
 
             mlist.setAdapter(myAdapter);
@@ -182,7 +176,6 @@ public class saving_plan extends AppCompatActivity {
         new LoadNewLists().execute();
     }
 
-    @Override
     public void onBackPressed(){
         if(bool == true) {
             int daysOfMonth;
@@ -194,17 +187,23 @@ public class saving_plan extends AppCompatActivity {
             Cursor cursorName = db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
             cursorName.moveToLast();
             Toast.makeText(this, cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_LONG).show();
-            double totalPlannedSavingPerDay = 0;
-            Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+            double totalRecurringSavingPerDay = 0;
+            Cursor cursor = db.query(dbHelper.NAME_RECURRING, MainActivity.all_columns_recurring, null, null, null, null, null);
             while (cursor.moveToNext() == true) {
-                totalPlannedSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.SAVING_PER_DATE)));
+                totalRecurringSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.RECURRING_PER_DATE)));
+            }
+
+            double totalPlannedSavingPerDay = 0;
+            Cursor cursor12 = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
+            while (cursor12.moveToNext() == true) {
+                totalPlannedSavingPerDay += Double.parseDouble(cursor12.getString(cursor12.getColumnIndex(MainActivity.SAVING_PER_DATE)));
             }
 //
             String totalIncome = cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_TOTAL_INCOME));
             String savingPercentage = cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_SAVING_GOAL));
-            String totalRecurring = "0";
+            //String totalRecurring = totalRecurringSavingPerDay;
             String frequency = cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_INCOME_TYPE));
-            double userDailyUpdated = Double.parseDouble(cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT))) - totalPlannedSavingPerDay;
+            double userDailyUpdated = Double.parseDouble(cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT))) - totalRecurringSavingPerDay - totalPlannedSavingPerDay ;
 
 
             //DailyIncomeCalculator dailyIncomeCalculator = new DailyIncomeCalculator(totalIncome, savingPercentage, totalPlannedSavingPerDay, totalRecurring, frequency, daysOfMonth);
@@ -219,16 +218,15 @@ public class saving_plan extends AppCompatActivity {
     }
 
 
+
     public void onPause() {
         super.onPause();
         if (db != null) db.close();
         mCursor.close();
     }
 
-    public void addSaving(View v){
-        Intent intent = new Intent(this, saving_plan_2.class);
+    public void addSavingRecurring(View v){
+        Intent intent = new Intent(this, Recurring_2.class);
         startActivity(intent);
     }
-
-
 }

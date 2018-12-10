@@ -32,12 +32,19 @@ public class dataBaseHelper extends SQLiteOpenHelper {
     final static String EVENT_NAME = "event_name";
     final static String SAVING_AMOUNT = "saving_amount";
     final static String SAVING_SO_FAR = "saving_so_far";
-
     final static String SAVING_DATE = "saving_date";
 
     final private static String CREATE_SAVING = "CREATE TABLE "+NAME_SAVING+" (" + MainActivity._ID +
             " INTEGER PRIMARY KEY AUTOINCREMENT, " + MainActivity.SAVING_NAME + " TEXT NOT NULL," +
-            MainActivity.SAVING_AMOUNT + " TEXT NOT NULL," + MainActivity.SAVING_SO_FAR + " TEXT NOT NULL,"+ MainActivity.SAVING_PER_DATE + " TEXT NOT NULL," + MainActivity.SAVING_DATE + " TEXT NOT NULL)";
+            MainActivity.SAVING_AMOUNT + " TEXT NOT NULL," + MainActivity.SAVING_SO_FAR + " TEXT NOT NULL," +
+            MainActivity.SAVING_PER_DATE + " TEXT NOT NULL," + MainActivity.SAVING_DATE + " TEXT NOT NULL)";
+
+
+    final static String NAME_RECURRING = "todo_recurring";
+
+    final private static String CREATE_RECURRING = "CREATE TABLE "+NAME_RECURRING+" (" + MainActivity._ID +
+            " INTEGER PRIMARY KEY AUTOINCREMENT, " + MainActivity.RECURRING_NAME + " TEXT NOT NULL," +
+            MainActivity.RECURRING_AMOUNT + " TEXT NOT NULL," +  MainActivity.RECURRING_PER_DATE + " TEXT NOT NULL)";
 
 
 
@@ -51,6 +58,7 @@ public class dataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         db.execSQL(CREATE_CMD);
         db.execSQL(CREATE_SAVING);
+        db.execSQL(CREATE_RECURRING);
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MainActivity.USER_NAME, "a");
@@ -70,6 +78,12 @@ public class dataBaseHelper extends SQLiteOpenHelper {
         content.put(MainActivity.SAVING_PER_DATE,"0");
         content.put(MainActivity.SAVING_DATE,"0");
         db.insert(NAME_SAVING,null, content);
+
+        ContentValues contenRecurring = new ContentValues();
+        contenRecurring.put(MainActivity.RECURRING_NAME, "Hello");
+        contenRecurring.put(MainActivity.RECURRING_AMOUNT, "0");
+        contenRecurring.put(MainActivity.RECURRING_PER_DATE, "0");
+        db.insert(NAME_RECURRING, null, contenRecurring);
     }
 
     @Override
@@ -81,6 +95,7 @@ public class dataBaseHelper extends SQLiteOpenHelper {
     void deleteDatabase ( ) {
         context.deleteDatabase(NAME);
         context.deleteDatabase(NAME_SAVING);
+        context.deleteDatabase(NAME_RECURRING);
     }
 
 }

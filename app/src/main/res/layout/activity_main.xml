@@ -71,6 +71,19 @@
         app:layout_constraintVertical_bias="0.021" />
 
     <Button
+        android:layout_width="102dp"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:onClick="RecurringBtn"
+        android:text="Recurring Expense"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.014"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.129" />
+
+    <Button
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:background="@drawable/user_sign"
@@ -81,5 +94,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.03" />
+
 
 </android.support.constraint.ConstraintLayout>

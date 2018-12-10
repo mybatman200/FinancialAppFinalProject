@@ -28,7 +28,10 @@
         <activity android:name=".saving_plan_2" />
         <activity android:name=".saving_plan_3" />
         <activity android:name=".activity_add_daily" />
-        <activity android:name=".activity_deduct_daily"></activity>
+        <activity android:name=".activity_deduct_daily" />
+        <activity android:name=".Recuring" />
+        <activity android:name=".Recurring_2" />
+        <activity android:name=".Recurring_3"></activity>
     </application>
 
 </manifest>
