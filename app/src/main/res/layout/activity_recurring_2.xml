@@ -36,9 +36,10 @@
         app:layout_constraintVertical_bias="0.368" />
 
     <TextView
+        android:id="@+id/recurringCostText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recurrin cost:"
+        android:text="Recurring cost:"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -60,6 +61,7 @@
 
 
     <Button
+        android:id="@+id/addMoreRecurringBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add This Plan"

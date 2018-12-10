@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.*;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.*;
@@ -14,6 +18,8 @@ import java.util.*;
 public class Recurring_2 extends AppCompatActivity {
 
     EditText nameEditText, savingEditText;
+    TextView recurringCostText;
+    Button addMoreRecurringBtn;
     private SQLiteDatabase db = null;
     private dataBaseHelper dbHelper = null;
     @Override
@@ -22,6 +28,36 @@ public class Recurring_2 extends AppCompatActivity {
         setContentView(R.layout.activity_recurring_2);
         nameEditText = findViewById(R.id.nameEditTextRecurring);
         savingEditText = findViewById(R.id.savingEditTextRecurring);
+        recurringCostText = findViewById(R.id.recurringCostText);
+        addMoreRecurringBtn = findViewById(R.id.addMoreRecurringBtn);
+
+        savingEditText.setVisibility(View.GONE);
+        recurringCostText.setVisibility(View.GONE);
+        addMoreRecurringBtn.setVisibility(View.GONE);
+
+        nameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                savingEditText.setVisibility(View.VISIBLE);
+                recurringCostText.setVisibility(View.VISIBLE);
+            }
+        });
+
+        savingEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) {
+                addMoreRecurringBtn.setVisibility(View.VISIBLE);
+            }
+        });
+
         dbHelper = new dataBaseHelper(this);
     }
 
