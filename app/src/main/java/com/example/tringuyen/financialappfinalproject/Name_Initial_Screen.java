@@ -46,7 +46,7 @@ public class Name_Initial_Screen extends AppCompatActivity {
         cursor.moveToFirst();
 
         String testing = cursor.getString( cursor.getColumnIndex(MainActivity.USER_NAME) );
-        Toast.makeText(this,   name+ currentTime.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,   name+ currentTime.toString(), Toast.LENGTH_LONG).show();
         ////////////////////////////////////////////////////////////////////////////////////////////////Test
 
         Intent intent = new Intent(this,activity_income_question.class);

@@ -69,7 +69,7 @@ public class activity_saving_goal_question extends AppCompatActivity {
         String savingGoalTest = cursor.getString(cursor.getColumnIndex(MainActivity.USER_SAVING_GOAL));
         String dailyLimitTest = cursor.getString(cursor.getColumnIndex(MainActivity.USER_DAILY_LIMIT));
 
-        Toast.makeText(this, " " + dailyLimitTest, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, " " + dailyLimitTest, Toast.LENGTH_LONG).show();
 
 
 

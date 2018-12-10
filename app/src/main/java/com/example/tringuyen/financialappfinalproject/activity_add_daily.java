@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.*;
 import android.view.*;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,12 +20,38 @@ public class activity_add_daily extends AppCompatActivity {
     private SQLiteDatabase db = null;
     private dataBaseHelper dbHelper = null;
     EditText addIncomeDaily;
+    Button addBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_daily);
         dbHelper = new dataBaseHelper(this);
         addIncomeDaily = findViewById(R.id.addIncomeEdit);
+        addBtn = findViewById(R.id.submitAddBtn);
+        addBtn.setVisibility(View.GONE);
+
+        addIncomeDaily.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!addIncomeDaily.getText().toString().equals("")){
+                    addBtn.setVisibility(View.VISIBLE);
+                }else {
+                    addBtn.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
     }
 
     public void addButtonActivityAddDaily(View view){
@@ -62,7 +91,7 @@ public class activity_add_daily extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(dataBaseHelper.NAME, MainActivity.all_columns,null, null, null, null, null);
         cursor.moveToLast();
-        Toast.makeText(this, ""+ cursor.getString(cursor.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ""+ cursor.getString(cursor.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

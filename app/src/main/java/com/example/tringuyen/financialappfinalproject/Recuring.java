@@ -106,7 +106,7 @@ public class Recuring extends AppCompatActivity {
                         db.update(dbHelper.NAME, contentValues, "_id="+MainActivity._ID, null);
 
                         db.delete(dbHelper.NAME_RECURRING, "_id=?", new String[]{longClickString});
-                        Toast.makeText(getApplicationContext(), "Delete" + longClickString, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "Delete" + longClickString, Toast.LENGTH_LONG).show();
 
                         db = dbHelper.getWritableDatabase();
                         mCursor = db.query(dbHelper.NAME_RECURRING, MainActivity.all_columns_recurring, null, null, null, null, null);
@@ -130,7 +130,7 @@ public class Recuring extends AppCompatActivity {
         actions = builder.create();
 
         Intent intent = getIntent();
-        bool = intent.getBooleanExtra("BOOLEAN_RETURN_RECURRING", false);
+        bool = intent.getBooleanExtra("BOOLEAN_RETURN", false);
     }
 
     int positionListener;
@@ -186,16 +186,16 @@ public class Recuring extends AppCompatActivity {
 
             Cursor cursorName = db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
             cursorName.moveToLast();
-            Toast.makeText(this, cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_LONG).show();
             double totalRecurringSavingPerDay = 0;
-            Cursor cursor = db.query(dbHelper.NAME_RECURRING, MainActivity.all_columns_recurring, null, null, null, null, null);
+            Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_recurring, null, null, null, null, null);
             while (cursor.moveToNext() == true) {
                 totalRecurringSavingPerDay += Double.parseDouble(cursor.getString(cursor.getColumnIndex(MainActivity.RECURRING_PER_DATE)));
             }
 
             double totalPlannedSavingPerDay = 0;
             Cursor cursor12 = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-            while (cursor12.moveToNext() == true) {
+            while (cursor.moveToNext() == true) {
                 totalPlannedSavingPerDay += Double.parseDouble(cursor12.getString(cursor12.getColumnIndex(MainActivity.SAVING_PER_DATE)));
             }
 //

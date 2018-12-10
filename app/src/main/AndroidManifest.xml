@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tringuyen.financialappfinalproject">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Name_Initial_Screen"
             android:label="@string/title_activity_name__initial__screen" />
@@ -33,5 +37,6 @@
         <activity android:name=".Recurring_2" />
         <activity android:name=".Recurring_3"></activity>
     </application>
+
 
 </manifest>

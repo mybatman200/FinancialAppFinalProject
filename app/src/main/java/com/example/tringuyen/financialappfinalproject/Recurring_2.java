@@ -30,7 +30,7 @@ public class Recurring_2 extends AppCompatActivity {
         long time =today.getTime();
         Calendar calendar = Calendar.getInstance();
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        Toast.makeText(this, ""+ daysOfMonth, Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, ""+ daysOfMonth, Toast.LENGTH_LONG).show();
         String name = nameEditText.getText().toString();
         String saving = savingEditText.getText().toString();
 

@@ -76,9 +76,7 @@ public class MainActivity extends AppCompatActivity {
             //show start activity
 
             startActivity(new Intent(MainActivity.this, Name_Initial_Screen.class));
-            Toast.makeText(
-                    MainActivity.this, "First Run", Toast.LENGTH_LONG)
-                    .show();
+            //Toast.makeText(MainActivity.this, "First Run", Toast.LENGTH_LONG).show();
         }
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();

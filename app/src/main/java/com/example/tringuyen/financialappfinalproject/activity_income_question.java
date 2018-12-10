@@ -104,7 +104,7 @@ public class activity_income_question extends AppCompatActivity {
         String freqTest = cursor.getString(cursor.getColumnIndex(MainActivity.USER_INCOME_TYPE));
         String incomeTest = cursor.getString(cursor.getColumnIndex(MainActivity.USER_TOTAL_INCOME));
 
-        Toast.makeText(this, nameTest+ " " + freqTest+ " " + incomeTest, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, nameTest+ " " + freqTest+ " " + incomeTest, Toast.LENGTH_LONG).show();
         ////////////////////////////////////////////////////////////////////////////////////////////////Test
 
 

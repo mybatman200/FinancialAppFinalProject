@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.os.*;
 import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.*;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+import com.example.tringuyen.financialappfinalproject.*;
 
-import java.util.Calendar;
+import java.nio.*;
+
+import au.com.bytecode.opencsv.CSVWriter;
 
 public class activity_user_profile extends AppCompatActivity {
     TextView savingText, incomeByFreq, userName;
@@ -70,7 +77,7 @@ public class activity_user_profile extends AppCompatActivity {
             int id =0;
 
             db.update(dbHelper.NAME, contentValues, "_id="+MainActivity._ID, null);
-                Toast.makeText(this, MainActivity._ID, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, MainActivity._ID, Toast.LENGTH_LONG).show();
                 userEdit=false;
         }
     }
@@ -87,7 +94,43 @@ public class activity_user_profile extends AppCompatActivity {
     }
 
     public void sumaryBtn(View v){
-        Intent intent = new Intent(this, profile_user_summary.class);
-        startActivity(intent);
+
+
+//        Intent intent = new Intent(this, profile_user_summary.class);
+//        startActivity(intent);
+
+
+        dataBaseHelper dbhelper = new dataBaseHelper(getApplicationContext());
+        File exportDir = new File(Environment.getExternalStorageDirectory(), "");
+        if (!exportDir.exists())
+        {
+            exportDir.mkdirs();
+        }
+        String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+        String fileName = "AnalysisData.csv";
+        String filePath = baseDir + File.separator + fileName;
+
+        File file = new File(exportDir, "csvname.csv");
+        try
+        {
+            file.createNewFile();
+            CSVWriter csvWrite = new CSVWriter(new FileWriter(filePath));
+
+            SQLiteDatabase db = dbhelper.getReadableDatabase();
+            Cursor curCSV = db.rawQuery("SELECT * FROM todo",null);
+            csvWrite.writeNext(curCSV.getColumnNames());
+            while(curCSV.moveToNext())
+            {
+                //Which column you want to exprort
+                String arrStr[] ={curCSV.getString(0),curCSV.getString(1), curCSV.getString(2)};
+                csvWrite.writeNext(arrStr);
+            }
+            csvWrite.close();
+            curCSV.close();
+        }
+        catch(Exception sqlEx)
+        {
+            Log.e("MainActivity", sqlEx.getMessage(), sqlEx);
+        }
     }
 }

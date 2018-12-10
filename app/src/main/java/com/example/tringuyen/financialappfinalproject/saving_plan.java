@@ -193,7 +193,7 @@ public class saving_plan extends AppCompatActivity {
 
             Cursor cursorName = db.query(dbHelper.NAME, MainActivity.all_columns, null, null, null, null, null);
             cursorName.moveToLast();
-            Toast.makeText(this, cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, cursorName.getString(cursorName.getColumnIndex(MainActivity.USER_DAILY_LIMIT)), Toast.LENGTH_LONG).show();
             double totalPlannedSavingPerDay = 0;
             Cursor cursor = db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
             while (cursor.moveToNext() == true) {
