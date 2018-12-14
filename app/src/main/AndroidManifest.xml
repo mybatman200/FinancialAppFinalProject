@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Name_Initial_Screen"
             android:label="@string/title_activity_name__initial__screen" />
@@ -35,8 +34,8 @@
         <activity android:name=".activity_deduct_daily" />
         <activity android:name=".Recuring" />
         <activity android:name=".Recurring_2" />
-        <activity android:name=".Recurring_3"></activity>
+        <activity android:name=".Recurring_3" />
+        <activity android:name=".SpendingSummary"></activity>
     </application>
-
 
 </manifest>

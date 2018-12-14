@@ -51,32 +51,7 @@ public class saving_plan_3 extends AppCompatActivity {
     public void updateValues(View v){
 
         Intent intent = getIntent();
-        //int id = intent.getIntExtra("idNumber", 0);
 
-//        savingGoal = findViewById(R.id.weightUpdate);
-//        untilDate = findViewById(R.id.repsUpdate);
-//
-//        String savingGoalString = savingGoal.getText().toString();
-//        String untilDateString = untilDate.getText().toString();
-//
-//        db = dbHelper.getWritableDatabase();
-//
-//
-//        ContentValues contentValues = new ContentValues();
-//        if(!savingGoalString.equals("")){
-//            contentValues.put(MainActivity.SAVING_AMOUNT,savingGoalString);
-//            db.update(dbHelper.NAME_SAVING,contentValues,"_id="+id,null);
-//
-//        }
-//        if(!untilDateString.equals("")){
-//            contentValues.put(MainActivity.SAVING_DATE,untilDateString);
-//            db.update(dbHelper.NAME_SAVING,contentValues,"_id="+id,null);
-//
-//        }
-//
-//
-//        Cursor cursor =  db.query(dbHelper.NAME_SAVING, MainActivity.all_columns_saving, null, null, null, null, null);
-//        cursor.moveToPosition(Integer.parseInt(id));
 
         Intent intent1 = new Intent(this, saving_plan.class);
         startActivity(intent1);

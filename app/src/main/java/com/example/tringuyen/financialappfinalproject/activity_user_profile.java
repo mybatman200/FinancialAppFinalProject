@@ -96,11 +96,14 @@ public class activity_user_profile extends AppCompatActivity {
     public void sumaryBtn(View v){
 
 
-//        Intent intent = new Intent(this, profile_user_summary.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, SpendingSummary.class);
+        startActivity(intent);
 
+    }
 
+    public void buttonCSV(View v){
         dataBaseHelper dbhelper = new dataBaseHelper(getApplicationContext());
+
         File exportDir = new File(Environment.getExternalStorageDirectory(), "");
         if (!exportDir.exists())
         {
